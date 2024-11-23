@@ -25,7 +25,6 @@
     <h1 class="font-mono text-lg text-indigo-500">
       <div class="flex flex-col items-center gap-2">
         Svelte 5 DateTimePicker Demo
-        {$inspect(value)}d
         <div class="flex items-center gap-1">
           <pre class="text-xs text-slate-500">{JSON.stringify($value, null, 2)}</pre>
         </div>
