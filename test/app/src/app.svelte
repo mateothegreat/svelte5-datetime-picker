@@ -9,13 +9,18 @@
       new Date().getFullYear(),
       new Date().getMonth() + 1,
       new Date().getDate(),
-      new Date().getHours() - 1
+      new Date().getHours() - 1,
+      new Date().getMinutes(),
+      new Date().getSeconds()
     ),
     end: new CalendarDateTime(
       new Date().getFullYear(),
       new Date().getMonth() + 1,
       new Date().getDate(),
-      new Date().getHours()
+      new Date().getHours(),
+      new Date().getMinutes(),
+      new Date().getSeconds(),
+      new Date().getMilliseconds()
     )
   });
 </script>

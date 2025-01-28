@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { DateValue } from "@internationalized/date";
   import { Button, RangeCalendar, type DateRange } from "bits-ui";
   import { writable, type Writable } from "svelte/store";
   import Meridian from "./meridian.svelte";
@@ -13,16 +14,17 @@
   let meridianEnd = writable<string>("AM");
 </script>
 
-{#snippet input(v: { for: "start" | "end"; prop: "hour" | "minute"; value: number })}
+{#snippet input(v: { for: keyof DateRange; prop: keyof DateValue; value: number })}
   <input
     bind:value={$value[v.for][v.prop]}
     onchange={(e) => {
-      $value[v.for][v.prop] = parseInt(e.target.value);
+      const target = e.target as HTMLInputElement;
+      $value.start.set({ [v.prop]: parseInt(target.value) });
     }}
     class="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-8 w-11 rounded-md border bg-transparent px-3 py-1 text-center text-xs shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50" />
 {/snippet}
 
-<RangeCalendar.Root {value} weekdayFormat="short" numberOfMonths={2} fixedWeeks={true} class="">
+<RangeCalendar.Root value={$value} weekdayFormat="short" numberOfMonths={2} fixedWeeks={true} class="">
   {#snippet children({ months, weekdays }: { months: any; weekdays: any })}
     <RangeCalendar.Header class="flex items-center justify-between">
       <RangeCalendar.PrevButton class="rounded-9px bg-background-alt hover:bg-muted active:scale-98 inline-flex size-10 items-center justify-center">
@@ -54,7 +56,7 @@
         <RangeCalendar.Grid class="w-full border-collapse select-none space-y-1">
           <RangeCalendar.GridHead>
             <RangeCalendar.GridRow class="mb-1 flex w-full justify-between">
-              {#each weekdays as day}
+              {#each weekdays as day},
                 <RangeCalendar.HeadCell class="text-muted-foreground w-10 rounded-md text-xs !font-normal">
                   <div>{day.slice(0, 2)}</div>
                 </RangeCalendar.HeadCell>
