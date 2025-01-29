@@ -1,8 +1,10 @@
 <script lang="ts">
-  import type { DateValue } from "@internationalized/date";
+  import type { CalendarDate, CalendarDateTime, DateValue, ZonedDateTime } from "@internationalized/date";
   import { Button, RangeCalendar, type DateRange } from "bits-ui";
   import { writable, type Writable } from "svelte/store";
   import Meridian from "./meridian.svelte";
+
+  type DateValueKeys = keyof CalendarDate | keyof CalendarDateTime | keyof ZonedDateTime;
 
   type Props = {
     value: Writable<DateRange>;
@@ -14,9 +16,9 @@
   let meridianEnd = writable<string>("AM");
 </script>
 
-{#snippet input(v: { for: keyof DateRange; prop: keyof DateValue; value: number })}
+{#snippet input(v: { for: keyof DateRange; prop: DateValueKeys; value: number })}
   <input
-    bind:value={$value[v.for][v.prop]}
+    bind:value={$value[v.for][v.prop as keyof DateValue]}
     onchange={(e) => {
       const target = e.target as HTMLInputElement;
       $value.start.set({ [v.prop]: parseInt(target.value) });
@@ -86,18 +88,18 @@
     <div class="mt-2 flex w-full items-center justify-between">
       <div class="flex items-center gap-1 text-xs text-slate-400">
         Time:
-        {@render input({ for: "start", prop: "hour", value: $value.start.hour })}
+        {@render input({ for: "start", prop: "hour", value: ($value.start as CalendarDateTime).hour })}
         <span class="text-slate-500">:</span>
-        {@render input({ for: "start", prop: "minute", value: $value.start.minute })}
+        {@render input({ for: "start", prop: "minute", value: ($value.start as CalendarDateTime).minute })}
         <span class="text-slate-500">:</span>
-        {@render input({ for: "start", prop: "second", value: $value.start.second })}
+        {@render input({ for: "start", prop: "second", value: ($value.start as CalendarDateTime).second })}
         <Meridian value={meridianStart} />
         <span class="text-slate-500">-</span>
-        {@render input({ for: "end", prop: "hour", value: $value.end.hour })}
+        {@render input({ for: "end", prop: "hour", value: ($value.end as CalendarDateTime).hour })}
         <span class="text-slate-500">:</span>
-        {@render input({ for: "end", prop: "minute", value: $value.end.minute })}
+        {@render input({ for: "end", prop: "minute", value: ($value.end as CalendarDateTime).minute })}
         <span class="text-slate-500">:</span>
-        {@render input({ for: "end", prop: "second", value: $value.end.second })}
+        {@render input({ for: "end", prop: "second", value: ($value.end as CalendarDateTime).second })}
         <Meridian value={meridianEnd} />
       </div>
       <div class="text-muted-foreground text-sm">

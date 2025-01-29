@@ -4,23 +4,25 @@
   import type { DateRange } from "bits-ui";
   import { writable } from "svelte/store";
 
+  const defaultDate = new Date();
+
   let value = writable<DateRange>({
     start: new CalendarDateTime(
-      new Date().getFullYear(),
-      new Date().getMonth() + 1,
-      new Date().getDate(),
-      new Date().getHours() - 1,
-      new Date().getMinutes(),
-      new Date().getSeconds()
+      defaultDate.getFullYear(),
+      defaultDate.getMonth() + 1,
+      defaultDate.getDate(),
+      defaultDate.getHours() - 1,
+      defaultDate.getMinutes(),
+      defaultDate.getSeconds()
     ),
     end: new CalendarDateTime(
-      new Date().getFullYear(),
-      new Date().getMonth() + 1,
-      new Date().getDate(),
-      new Date().getHours(),
-      new Date().getMinutes(),
-      new Date().getSeconds(),
-      new Date().getMilliseconds()
+      defaultDate.getFullYear(),
+      defaultDate.getMonth() + 1,
+      defaultDate.getDate(),
+      defaultDate.getHours(),
+      defaultDate.getMinutes(),
+      defaultDate.getSeconds(),
+      defaultDate.getMilliseconds()
     )
   });
 </script>
